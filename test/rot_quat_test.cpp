@@ -89,11 +89,10 @@ namespace
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     test_x();
     test_y();
     test_z();
-    return boost::report_errors();
+    
     }

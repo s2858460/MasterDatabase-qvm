@@ -11,6 +11,8 @@
 #   include <boost/qvm/mat.hpp>
 #endif
 
+#include "test_qvm.hpp"
+
 namespace
 my_stuff
     {
@@ -315,8 +317,7 @@ my_stuff
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     using namespace boost::qvm::sfinae;
     using namespace my_stuff;
@@ -433,6 +434,4 @@ main()
     (void) (qa1!=qb1);
     (void) (qa1!=qa2);
     (void) (qa2!=qa1);
-
-    return 0;
     }

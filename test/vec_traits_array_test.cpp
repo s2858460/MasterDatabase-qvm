@@ -9,7 +9,8 @@
 #endif
 
 #include <boost/qvm/vec_traits_array.hpp>
-#include <boost/core/lightweight_test.hpp>
+
+#include "test_qvm.hpp"
 
 template <class T,class U>
 struct same_type;
@@ -38,8 +39,7 @@ test_ref_cast( T & v, P * ptr )
     BOOST_TEST_EQ(&v[2], &ptr[2]);
     }
 
-int
-main()
+TEST_CASE()
     {
     using namespace boost::qvm;
         {
@@ -83,5 +83,5 @@ main()
         BOOST_TEST_EQ(ptr[1], 44);
         BOOST_TEST_EQ(ptr[2], 45);
         }
-    return boost::report_errors();
+    
     }

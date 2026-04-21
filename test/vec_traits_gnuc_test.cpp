@@ -3,14 +3,13 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #if !defined(__GNUC__) || !defined(__SSE__)
-
-#include <iostream>
-
-int main()
-{
-    std::cout << "Test not applicable due to lack of C++11 support in the compiler" << std::endl;
-    return 0;
-}
+//#include <iostream>
+//
+//int main()
+//{
+//    std::cout << "Test not applicable due to lack of C++11 support in the compiler" << std::endl;
+//    return 0;
+//}
 
 #else
 
@@ -36,8 +35,7 @@ same_type<T,T>
     {
     };
 
-int
-main()
+TEST_CASE()
     {
     using namespace boost::qvm;
     typedef float v2sf __attribute__ ((vector_size(8)));
@@ -110,7 +108,7 @@ main()
         BOOST_TEST_EQ(W(v2), 1);
     }
 #endif
-    return boost::report_errors();
+    
     }
 
 #endif

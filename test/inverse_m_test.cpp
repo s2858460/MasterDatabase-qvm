@@ -9,7 +9,6 @@
 #   include <boost/qvm/mat.hpp>
 #endif
 
-#include <boost/exception/diagnostic_information.hpp>
 #include "test_qvm_matrix.hpp"
 #include "gold.hpp"
 
@@ -39,21 +38,10 @@ namespace
         }
     }
 
-int
-main()
+TEST_CASE()
     {
-    try
-        {
-        test<2>();
-        test<3>();
-        test<4>();
-        test<5>();
-        return boost::report_errors();
-        }
-    catch(
-    ... )
-        {
-        std::cerr << "Uncaught exception:\n" << boost::current_exception_diagnostic_information();
-        return 1;
-        }
+    test<2>();
+    test<3>();
+    test<4>();
+    test<5>();
     }

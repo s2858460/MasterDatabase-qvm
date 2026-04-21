@@ -25,8 +25,7 @@ boost
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     using namespace boost::qvm;
     my_mat<1,1> const m=my_mat<1,1>();

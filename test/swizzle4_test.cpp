@@ -16,8 +16,7 @@
 
 #include "test_qvm_vector.hpp"
 
-int
-main()
+TEST_CASE()
     {
     using namespace boost::qvm;
     test_qvm::vector<V1,4> v1;
@@ -222,5 +221,5 @@ main()
         BOOST_TEST_EQ(v.a[2], 1);
         BOOST_TEST_EQ(v.a[3], 1);
         }
-    return boost::report_errors();
+    
     }

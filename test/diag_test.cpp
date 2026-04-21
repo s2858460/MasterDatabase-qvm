@@ -50,8 +50,7 @@ namespace
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     test<1,2>();
     test<1,3>();
@@ -65,5 +64,5 @@ main()
     test<3,3>();
     test<4,4>();
     test<5,5>();
-    return boost::report_errors();
+    
     }

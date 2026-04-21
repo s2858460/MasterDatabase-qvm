@@ -8,7 +8,6 @@
 #   include <boost/qvm/math.hpp>
 #endif
 
-#include <boost/core/lightweight_test.hpp>
 #include "test_qvm.hpp"
 #include <stdlib.h>
 
@@ -37,8 +36,7 @@ namespace
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     test1<float>(&boost::qvm::acos<float>, &::acosf);
     test1<float>(&boost::qvm::asin<float>, &::asinf);
@@ -103,5 +101,5 @@ main()
     test1<long double>(&boost::qvm::floor<long double>, &::floorl);
     test2<long double, int>(&boost::qvm::ldexp<long double>, &::ldexpl);
 
-    return boost::report_errors();
+    
     }

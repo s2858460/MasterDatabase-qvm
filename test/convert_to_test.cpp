@@ -66,8 +66,7 @@ namespace
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     test_matrix<1,2>();
     test_matrix<2,1>();
@@ -86,5 +85,5 @@ main()
     test_vector<3>();
     test_vector<4>();
     test_vector<5>();
-    return boost::report_errors();
+    
     }

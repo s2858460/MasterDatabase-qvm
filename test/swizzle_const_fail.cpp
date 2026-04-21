@@ -6,8 +6,7 @@
 #include <boost/qvm/vec_operations.hpp>
 #include <boost/qvm/swizzle2.hpp>
 
-int
-main()
+TEST_CASE()
     {
     using namespace boost::qvm;
     vec<float,2> v;

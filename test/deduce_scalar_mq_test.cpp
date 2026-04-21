@@ -12,7 +12,7 @@
 #   include <boost/qvm/quat_vec_operations.hpp>
 #endif
 
-#include <boost/core/lightweight_test.hpp>
+#include "test_qvm.hpp"
 
 template <class T>
 struct
@@ -57,8 +57,7 @@ boost
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     using namespace boost::qvm;
     quat<double> q = rotz_quat(3.14159);
@@ -70,5 +69,5 @@ main()
     BOOST_TEST_LT(fabs(r.a[0].t+1), 0.0001);
     BOOST_TEST_LT(fabs(r.a[1].t), 0.0001);
     BOOST_TEST_LT(fabs(r.a[2].t), 0.0001);
-    return boost::report_errors();
+    
     }

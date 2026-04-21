@@ -9,7 +9,6 @@
 #   include <boost/qvm/quat.hpp>
 #endif
 
-#include <boost/exception/diagnostic_information.hpp>
 #include "test_qvm_quaternion.hpp"
 #include "test_qvm.hpp"
 
@@ -37,9 +36,8 @@ namespace
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     test();
-    return boost::report_errors();
+    
     }

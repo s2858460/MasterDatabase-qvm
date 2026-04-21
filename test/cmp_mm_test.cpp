@@ -100,8 +100,7 @@ namespace
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     test<1,2>();
     test<2,1>();
@@ -119,5 +118,5 @@ main()
     test2<int, double>();
     test2<double, int>();
     test2<double, double>();
-    return boost::report_errors();
+    
     }

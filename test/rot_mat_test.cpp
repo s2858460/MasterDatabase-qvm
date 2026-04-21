@@ -385,8 +385,7 @@ namespace
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     test_x<3>();
     test_y<3>();
@@ -433,5 +432,5 @@ main()
     test_yzy<5>();
     test_zyz<5>();
     test_zxz<5>();
-    return boost::report_errors();
+    
     }

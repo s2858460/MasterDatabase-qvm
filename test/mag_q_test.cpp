@@ -27,9 +27,8 @@ namespace
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     test();
-    return boost::report_errors();
+    
     }

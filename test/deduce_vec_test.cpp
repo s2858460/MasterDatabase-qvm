@@ -8,6 +8,8 @@
 #   include <boost/qvm/deduce_vec.hpp>
 #endif
 
+#include "test_qvm.hpp"
+
 template <class T,class U>
 struct same_type;
 
@@ -66,8 +68,7 @@ boost
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     same_type< boost::qvm::deduce_vec< v1<int,3> >::type, v1<int,3> >();
     same_type< boost::qvm::deduce_vec< v1<int,3>, 4 >::type, boost::qvm::vec<int,4> >();

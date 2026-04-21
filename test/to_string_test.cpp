@@ -47,8 +47,7 @@ namespace
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     test_matrix<1,2>("((42,43))");
     test_matrix<2,1>("((42)(43))");
@@ -67,5 +66,5 @@ main()
     test_vector<4>("(42,43,44,45)");
     test_vector<5>("(42,43,44,45,46)");
     test_quaternion("(42,43,44,45)");
-    return boost::report_errors();
+    
     }

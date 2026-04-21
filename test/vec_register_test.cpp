@@ -9,7 +9,7 @@
 #   include <boost/qvm/vec_register.hpp>
 #endif
 
-#include <boost/core/lightweight_test.hpp>
+#include "test_qvm.hpp"
 
 struct v2
 {
@@ -59,7 +59,7 @@ BOOST_QVM_REGISTER_VEC_2_READ_WRITE(v2rw, float, xr, yr, x, y)
 BOOST_QVM_REGISTER_VEC_3_READ_WRITE(v3rw, float, xr, yr, zr, x, y, z)
 BOOST_QVM_REGISTER_VEC_4_READ_WRITE(v4rw, float, xr, yr, zr, wr, x, y, z, w)
 
-int main()
+TEST_CASE()
 {
     using namespace boost::qvm;
 
@@ -225,5 +225,5 @@ int main()
     BOOST_TEST_NE(&vec_traits<v4rw>::write_element_idx(3, v_v4rw), &v_v4rw.wr);
     BOOST_TEST_EQ(&vec_traits<v4rw>::write_element_idx(3, v_v4rw), &v_v4rw.w );
 
-    return boost::report_errors();
+    
 }

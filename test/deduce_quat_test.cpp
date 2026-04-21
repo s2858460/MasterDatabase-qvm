@@ -8,6 +8,8 @@
 #   include <boost/qvm/deduce_quat.hpp>
 #endif
 
+#include "test_qvm.hpp"
+
 template <class T,class U>
 struct same_type;
 
@@ -64,8 +66,7 @@ boost
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     same_type< boost::qvm::deduce_quat< q1<int> >::type, q1<int> >();
     check< q1<int>, q1<int>, q1<int> >();

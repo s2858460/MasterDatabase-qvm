@@ -34,10 +34,9 @@ namespace
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     test_perspective_lh(0.5f,1.3f,0.1f,2000.0f);
     test_perspective_rh(0.5f,1.3f,0.1f,2000.0f);
-    return boost::report_errors();
+    
     }

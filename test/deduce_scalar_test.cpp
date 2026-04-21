@@ -8,6 +8,8 @@
 #   include <boost/qvm/deduce_scalar.hpp>
 #endif
 
+#include "test_qvm.hpp"
+
 template <class T,class U>
 struct same_type;
 
@@ -31,8 +33,7 @@ check
     same_type<typename boost::qvm::deduce_scalar<B const,A const>::type,R> b4;
     };
 
-int
-main()
+TEST_CASE()
     {
     check<signed char,signed char,signed char>();
     check<signed char,signed short,signed short>();

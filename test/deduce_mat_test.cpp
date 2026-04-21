@@ -8,6 +8,8 @@
 #   include <boost/qvm/deduce_mat.hpp>
 #endif
 
+#include "test_qvm.hpp"
+
 template <class T,class U>
 struct same_type;
 
@@ -68,8 +70,7 @@ boost
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     same_type< boost::qvm::deduce_mat< m1<int,4,2> >::type, m1<int,4,2> >();
     same_type< boost::qvm::deduce_mat< m1<int,4,2>, 4, 4 >::type, boost::qvm::mat<int,4,4> >();

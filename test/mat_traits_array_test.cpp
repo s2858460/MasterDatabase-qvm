@@ -9,7 +9,8 @@
 #endif
 
 #include <boost/qvm/mat_traits_array.hpp>
-#include <boost/core/lightweight_test.hpp>
+
+#include "test_qvm.hpp"
 
 template <class T,class U>
 struct same_type;
@@ -48,8 +49,7 @@ test_ref_cast( T & v, P * ptr )
     BOOST_TEST_EQ(&v[2][1], &ptr[2*2+1]);
     }
 
-int
-main()
+TEST_CASE()
     {
     using namespace boost::qvm;
         {
@@ -136,5 +136,5 @@ main()
         BOOST_TEST_EQ(ptr[2*2+0], 47);
         BOOST_TEST_EQ(ptr[2*2+1], 48);
         }
-    return boost::report_errors();
+    
     }

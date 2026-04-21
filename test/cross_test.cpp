@@ -23,8 +23,7 @@ namespace
     template <class T,class U> void test_same_type( T, U ) { same_type_tester<T,U>(); }
     }
 
-int
-main()
+TEST_CASE()
     {
     using namespace boost::qvm;
 
@@ -66,5 +65,5 @@ main()
         BOOST_QVM_TEST_EQ(r, x.a[0]*y.a[1] - x.a[1]*y.a[0]);
         }
 
-    return boost::report_errors();
+    
     }

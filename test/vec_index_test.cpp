@@ -50,11 +50,10 @@ vec_index_test()
     test_write_element_idx<V>::test();
     }
 
-int
-main()
+TEST_CASE()
     {       
     using namespace boost::qvm;
     vec_index_test<test_qvm::vector<V1,4> >();
     vec_index_test<test_qvm::vector<V1,5> >();
-    return boost::report_errors();
+    
     }

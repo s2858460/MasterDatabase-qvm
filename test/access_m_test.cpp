@@ -639,13 +639,12 @@ check_write()
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     check_read(test_qvm::matrix<M1,10,10,float>(0,1));
     check_write<test_qvm::matrix<M1,10,10,float> >();
 #ifdef BOOST_QVM_TEST_REF_WRITE_ELEMENT
     check_write_ref<test_qvm::matrix<M1,10,10,float> >();
 #endif
-    return boost::report_errors();
+    
     }

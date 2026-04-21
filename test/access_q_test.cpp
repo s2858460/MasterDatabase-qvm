@@ -11,8 +11,7 @@
 
 #include "test_qvm_quaternion.hpp"
 
-int
-main()
+TEST_CASE()
     {       
     using namespace boost::qvm;
 
@@ -50,5 +49,5 @@ main()
     BOOST_TEST_EQ(q.a[3],42.0f);
 #endif
 
-    return boost::report_errors();
+    
     }

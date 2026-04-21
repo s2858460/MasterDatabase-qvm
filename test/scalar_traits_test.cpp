@@ -12,6 +12,8 @@
 #include <boost/qvm/mat.hpp>
 #include <boost/qvm/quat.hpp>
 
+#include "test_qvm.hpp"
+
 template <bool>
 struct tester;
 
@@ -40,8 +42,6 @@ tester<!is_scalar<quat<float> >::value> t16;
 tester<is_scalar<signed long long>::value> t17;
 tester<is_scalar<unsigned long long>::value> t18;
 
-int
-main()
+TEST_CASE()
     {
-    return 0;
     }

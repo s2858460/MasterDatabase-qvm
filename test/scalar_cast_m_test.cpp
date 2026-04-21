@@ -28,11 +28,10 @@ namespace
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     test<1,2>();
     test<2,1>();
     test<2,2>();
-    return boost::report_errors();
+    
     }

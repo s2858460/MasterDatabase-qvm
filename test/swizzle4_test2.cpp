@@ -45,8 +45,7 @@ boost
         }
     }
 
-int
-main()
+TEST_CASE()
     {
     using namespace boost::qvm;
     XXXX(my_vec<1>());

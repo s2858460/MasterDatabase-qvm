@@ -3,6 +3,7 @@
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #if __cplusplus <= 199711L
+#error invalid options
 
 #include <iostream>
 
@@ -22,7 +23,8 @@ int main()
 #endif
 
 #include <boost/qvm/mat_traits_array.hpp>
-#include <boost/core/lightweight_test.hpp>
+
+#include "test_qvm.hpp"
 
 template <class T,class U>
 struct same_type;
@@ -33,8 +35,7 @@ same_type<T,T>
     {
     };
 
-int
-main()
+TEST_CASE()
     {
     using namespace boost::qvm;
     BOOST_QVM_STATIC_ASSERT((!is_mat<std::array<int,3>>::value));
@@ -144,7 +145,7 @@ main()
     BOOST_TEST_EQ((&mat_traits<std::array<std::array<int,3>,3>>::write_element_idx(2,0,arr1)), &arr1[2][0]);
     BOOST_TEST_EQ((&mat_traits<std::array<std::array<int,3>,3>>::write_element_idx(2,1,arr1)), &arr1[2][1]);
     BOOST_TEST_EQ((&mat_traits<std::array<std::array<int,3>,3>>::write_element_idx(2,2,arr1)), &arr1[2][2]);
-    return boost::report_errors();
+    
     }
 
 #endif

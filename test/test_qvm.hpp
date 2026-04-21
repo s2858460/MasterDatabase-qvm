@@ -1,256 +1,179 @@
 #ifndef BOOST_QVM_TEST_QVM_HPP_INCLUDED
 #define BOOST_QVM_TEST_QVM_HPP_INCLUDED
 
-// Copyright 2008-2024 Emil Dotchevski and Reverge Studios, Inc.
-// Distributed under the Boost Software License, Version 1.0. (See accompanying
-// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+#include <catch2/catch_all.hpp>
+#include <cmath>
 
-#include <boost/test/tools/floating_point_comparison.hpp>
-#include <boost/core/lightweight_test.hpp>
-#include <iostream>
+#define BOOST_QVM_TEST_EQ(x,y) \
+    REQUIRE(::test_qvm::detail::test_eq_impl((x),(y)))
 
-#define BOOST_QVM_TEST_EQ(expra,exprb) ( ::test_qvm::detail::test_eq_impl(#expra, #exprb, __FILE__, __LINE__, BOOST_CURRENT_FUNCTION, expra, exprb) )
-#define BOOST_QVM_TEST_NEQ(expra,exprb) ( ::test_qvm::detail::test_neq_impl(#expra, #exprb, __FILE__, __LINE__, BOOST_CURRENT_FUNCTION, expra, exprb) )
-#define BOOST_QVM_TEST_CLOSE(expra,exprb,exprt) ( ::test_qvm::detail::test_close_impl(#expra, #exprb, #exprt, __FILE__, __LINE__, BOOST_CURRENT_FUNCTION, expra, exprb, exprt) )
+#define BOOST_QVM_TEST_NEQ(x,y) \
+    REQUIRE(::test_qvm::detail::test_neq_impl((x),(y)))
 
-#define BOOST_QVM_TEST_EQ_QUAT(expra,exprb) ( ::test_qvm::detail::test_eq_q_impl(#expra, #exprb, __FILE__, __LINE__, BOOST_CURRENT_FUNCTION, expra, exprb) )
-#define BOOST_QVM_TEST_NEQ_QUAT(expra,exprb) ( ::test_qvm::detail::test_neq_q_impl(#expra, #exprb, __FILE__, __LINE__, BOOST_CURRENT_FUNCTION, expra, exprb) )
-#define BOOST_QVM_TEST_CLOSE_QUAT(expra,exprb,exprt) ( ::test_qvm::detail::test_close_q_impl(#expra, #exprb, #exprt, __FILE__, __LINE__, BOOST_CURRENT_FUNCTION, expra, exprb, exprt) )
+#define BOOST_QVM_TEST_CLOSE(x,y,t) \
+    REQUIRE(::test_qvm::detail::test_close_impl((x),(y),(t)))
 
-namespace
-test_qvm
-    {
-    namespace
-    detail
-        {
-        inline
-        bool
-        close_at_tolerance( float a, float b, float tolerance )
-            {
-            return boost::math::fpc::close_at_tolerance<float>(tolerance,boost::math::fpc::FPC_STRONG)(a,b);
-            }
+#define BOOST_QVM_TEST_EQ_QUAT(x,y) \
+    REQUIRE(::test_qvm::detail::test_eq_q_impl((x),(y)))
 
-        inline
-        bool
-        close_at_tolerance( double a, double b, double tolerance )
-            {
-            return boost::math::fpc::close_at_tolerance<double>(tolerance,boost::math::fpc::FPC_STRONG)(a,b);
-            }
+#define BOOST_QVM_TEST_NEQ_QUAT(x,y) \
+    REQUIRE(::test_qvm::detail::test_neq_q_impl((x),(y)))
 
-        template <class A,class B>
-        void
-        dump_ab( A a, B b )
-            {
-            std::cerr << a << '\t' << b << std::endl;
-            }
+#define BOOST_QVM_TEST_CLOSE_QUAT(x,y,t) \
+    REQUIRE(::test_qvm::detail::test_close_q_impl((x),(y),(t)))
 
-        template <class A,class B,int D>
-        void
-        dump_ab( A (&a)[D], B (&b)[D] )
-            {
-            for( int i=0; i!=D; ++i )
-                dump_ab(a[i],b[i]);
-            }
+#define BOOST_TEST REQUIRE
+#define BOOST_TEST_EQ(x, y) REQUIRE((x) == (y))
+#define BOOST_TEST_NE(x, y) REQUIRE((x) != (y))
+#define BOOST_TEST_LT(x, y) REQUIRE((x) < (y))
 
-        template <class A,class B>
-        void
-        test_eq_impl( char const * expra, char const * exprb, char const * file, int line, char const * function, A a, B b )
-            {
+namespace test_qvm {
+    namespace detail {
+        // ------------------------------------------------------------
+        // tolerance
+        // ------------------------------------------------------------
+        inline bool close_at_tolerance(float a, float b, float tolerance) {
+            return std::abs(a - b) <= tolerance * std::max(std::abs(a), std::abs(b));
+        }
+
+        inline bool close_at_tolerance(double a, double b, double tolerance) {
+            return std::abs(a - b) <= tolerance * std::max(std::abs(a), std::abs(b));
+        }
+
+        // ------------------------------------------------------------
+        // EQ
+        // ------------------------------------------------------------
+        template <class A, class B>
+        bool test_eq_impl(A const& a, B const& b) {
             using namespace ::boost::qvm;
-            if( !(a==b) )
-                {
-                std::cerr << file << "(" << line << "): BOOST_QVM_TEST_EQ(" << expra << ',' << exprb
-                    << ") failed in function " << function << '\n';
-                dump_ab(a,b);
-                ++::boost::detail::test_errors();
-                }
-            }
+            return a == b;
+        }
 
-        template <class A,class B,int M,int N>
-        void
-        test_eq_impl( char const * expra, char const * exprb, char const * file, int line, char const * function, A (&a)[M][N], B (&b)[M][N] )
-            {
+        template <class A, class B, int M, int N>
+        bool test_eq_impl(A(&a)[M][N], B(&b)[M][N]) {
             using namespace ::boost::qvm;
-            for( int i=0; i<M; ++i )
-                for( int j=0; j<N; ++j )
-                    if( !(a[i][j]==b[i][j]) )
-                        {
-                        std::cerr << file << "(" << line << "): BOOST_QVM_TEST_EQ(" << expra << ',' << exprb
-                            << ") failed in function " << function << '\n';
-                        dump_ab(a,b);
-                        ++::boost::detail::test_errors();
-                        return;
-                        }
-            }
+            for (int i = 0; i < M; ++i)
+                for (int j = 0; j < N; ++j)
+                    if (!(a[i][j] == b[i][j]))
+                        return false;
+            return true;
+        }
 
-        template <class A,class B,int D>
-        void
-        test_eq_impl( char const * expra, char const * exprb, char const * file, int line, char const * function, A (&a)[D], B (&b)[D] )
-            {
+        template <class A, class B, int D>
+        bool test_eq_impl(A(&a)[D], B(&b)[D]) {
             using namespace ::boost::qvm;
-            for( int i=0; i<D; ++i )
-                if( !(a[i]==b[i]) )
-                    {
-                    std::cerr << file << "(" << line << "): BOOST_QVM_TEST_EQ" << expra << ',' << exprb
-                        << ") failed in function " << function <<'\n';
-                    dump_ab(a,b);
-                    ++::boost::detail::test_errors();
-                    return;
-                    }
-            }
+            for (int i = 0; i < D; ++i)
+                if (!(a[i] == b[i]))
+                    return false;
+            return true;
+        }
 
-        template <class A,class B>
-        void
-        test_eq_q_impl( char const * expra, char const * exprb, char const * file, int line, char const * function, A (&a)[4], B (&b)[4] )
-            {
+        template <class A, class B>
+        bool test_eq_q_impl(A(&a)[4], B(&b)[4]) {
             using namespace ::boost::qvm;
-            int i;
-            for( i=0; i<4; ++i )
-                if( !(a[i]==b[i]) )
-                    break;
-            if( i==4 )
-                return;
-            for( i=0; i<4; ++i )
-                if( !(a[i]==-b[i]) )
-                    {
-                    std::cerr << file << "(" << line << "): BOOST_QVM_TEST_EQ" << expra << ',' << exprb
-                        << ") failed in function " << function <<'\n';
-                    dump_ab(a,b);
-                    ++::boost::detail::test_errors();
-                    return;
-                    }
-            }
 
-        template <class A,class B>
-        void
-        test_neq_impl( char const * expra, char const * exprb, char const * file, int line, char const * function, A a, B b )
-            {
+            bool same = true;
+            for (int i = 0; i < 4; ++i)
+                if (!(a[i] == b[i]))
+                    same = false;
+
+            if (same) return true;
+
+            for (int i = 0; i < 4; ++i)
+                if (!(a[i] == -b[i]))
+                    return false;
+
+            return true;
+        }
+
+        // ------------------------------------------------------------
+        // NEQ
+        // ------------------------------------------------------------
+        template <class A, class B>
+        bool test_neq_impl(A const& a, B const& b) {
             using namespace ::boost::qvm;
-            if( !(a!=b) )
-                {
-                std::cerr << file << "(" << line << "): BOOST_QVM_TEST_NEQ(" << expra << ',' << exprb
-                    << ") failed in function " << function << '\n';
-                dump_ab(a,b);
-                ++::boost::detail::test_errors();
-                }
-            }
+            return a != b;
+        }
 
-        template <class A,class B,int M,int N>
-        void
-        test_neq_impl( char const * expra, char const * exprb, char const * file, int line, char const * function, A (&a)[M][N], B (&b)[M][N] )
-            {
+        template <class A, class B, int M, int N>
+        bool test_neq_impl(A(&a)[M][N], B(&b)[M][N]) {
             using namespace ::boost::qvm;
-            for( int i=0; i<M; ++i )
-                for( int j=0; j<N; ++j )
-                    if( a[i][j]!=b[i][j] )
-                        return;
-            std::cerr << file << "(" << line << "): BOOST_QVM_TEST_NEQ(" << expra << ',' << exprb
-                << ") failed in function " << function << '\n';
-            dump_ab(a,b);
-            ++::boost::detail::test_errors();
-            }
+            for (int i = 0; i < M; ++i)
+                for (int j = 0; j < N; ++j)
+                    if (a[i][j] != b[i][j])
+                        return true;
+            return false;
+        }
 
-        template <class A,class B,int D>
-        void
-        test_neq_impl( char const * expra, char const * exprb, char const * file, int line, char const * function, A (&a)[D], B (&b)[D] )
-            {
+        template <class A, class B, int D>
+        bool test_neq_impl(A(&a)[D], B(&b)[D]) {
             using namespace ::boost::qvm;
-            for( int i=0; i<D; ++i )
-                if( a[i]!=b[i] )
-                    return;
-            std::cerr << file << "(" << line << "): BOOST_QVM_TEST_NEQ(" << expra << ',' << exprb
-                << ") failed in function " << function << '\n';
-            dump_ab(a,b);
-            ++::boost::detail::test_errors();
-            }
+            for (int i = 0; i < D; ++i)
+                if (a[i] != b[i])
+                    return true;
+            return false;
+        }
 
-        template <class A,class B>
-        void
-        test_neq_q_impl( char const * expra, char const * exprb, char const * file, int line, char const * function, A (&a)[4], B (&b)[4] )
-            {
+        template <class A, class B>
+        bool test_neq_q_impl(A(&a)[4], B(&b)[4]) {
             using namespace ::boost::qvm;
-            int i;
-            for( i=0; i<4; ++i )
-                if( !(a[i]!=b[i]) )
-                    break;
-            if( i==4 )
-                return;
-            for( i=0; i<4; ++i )
-                if( !(a[i]!=-b[i]) )
-                    {
-                    std::cerr << file << "(" << line << "): BOOST_QVM_TEST_EQ" << expra << ',' << exprb
-                        << ") failed in function " << function <<'\n';
-                    dump_ab(a,b);
-                    ++::boost::detail::test_errors();
-                    return;
-                    }
-            }
 
-        template <class A,class B,class T>
-        void
-        test_close_impl( char const * expra, char const * /*exprb*/, char const * /*exprt*/, char const * file, int line, char const * function, A a, B b, T t )
-            {
-            if( !close_at_tolerance(a,b,t) )
-                {
-                std::cerr << file << "(" << line << "): BOOST_QVM_TEST_CLOSE(" << expra << ',' << b << ',' << t
-                    << ") failed in function " << function << '\n';
-                ++::boost::detail::test_errors();
-                return;
-                }
-            }
+            bool all_diff = true;
+            for (int i = 0; i < 4; ++i)
+                if (!(a[i] != b[i]))
+                    all_diff = false;
 
-        template <class A,class B,class T,int M,int N>
-        void
-        test_close_impl( char const * expra, char const * exprb, char const * exprt, char const * file, int line, char const * function, A (&a)[M][N], B (&b)[M][N], T t )
-            {
-            for( int i=0; i<M; ++i )
-                for( int j=0; j<N; ++j )
-                    if( !close_at_tolerance(a[i][j],b[i][j],t) )
-                        {
-                        std::cerr << file << "(" << line << "): BOOST_QVM_TEST_CLOSE(" << expra << ',' << exprb << ',' << exprt
-                            << ") failed in function " << function << '\n';
-                        dump_ab(a,b);
-                        ++::boost::detail::test_errors();
-                        return;
-                        }
-            }
+            if (all_diff) return true;
 
-        template <class A,class B,class T,int D>
-        void
-        test_close_impl( char const * expra, char const * exprb, char const * exprt, char const * file, int line, char const * function, A (&a)[D], B (&b)[D], T t )
-            {
-            for( int i=0; i<D; ++i )
-                if( !close_at_tolerance(a[i],b[i],t) )
-                    {
-                    std::cerr << file << "(" << line << "): BOOST_QVM_TEST_CLOSE(" << expra << ',' << exprb << ',' << exprt
-                        << ") failed in function " << function << '\n';
-                    dump_ab(a,b);
-                    ++::boost::detail::test_errors();
-                    return;
-                    }
-            }
+            for (int i = 0; i < 4; ++i)
+                if (!(a[i] != -b[i]))
+                    return false;
 
-        template <class A,class B,class T>
-        void
-        test_close_q_impl( char const * expra, char const * exprb, char const * exprt, char const * file, int line, char const * function, A (&a)[4], B (&b)[4], T t )
-            {
-            int i;
-            for( i=0; i<4; ++i )
-                if( !close_at_tolerance(a[i],b[i],t) )
-                    break;
-            if( i==4 )
-                return;
-            for( i=0; i<4; ++i )
-                if( !close_at_tolerance(a[i],-b[i],t) )
-                    {
-                    std::cerr << file << "(" << line << "): BOOST_QVM_TEST_CLOSE_QUAT(" << expra << ',' << exprb << ',' << exprt
-                        << ") failed in function " << function << '\n';
-                    dump_ab(a,b);
-                    ++::boost::detail::test_errors();
-                    return;
-                    }
-            }
+            return true;
+        }
 
-} }
+        // ------------------------------------------------------------
+        // CLOSE
+        // ------------------------------------------------------------
+        template <class A, class B, class T>
+        bool test_close_impl(A a, B b, T t) {
+            return close_at_tolerance(a, b, t);
+        }
+
+        template <class A, class B, class T, int M, int N>
+        bool test_close_impl(A(&a)[M][N], B(&b)[M][N], T t) {
+            for (int i = 0; i < M; ++i)
+                for (int j = 0; j < N; ++j)
+                    if (!close_at_tolerance(a[i][j], b[i][j], t))
+                        return false;
+            return true;
+        }
+
+        template <class A, class B, class T, int D>
+        bool test_close_impl(A(&a)[D], B(&b)[D], T t) {
+            for (int i = 0; i < D; ++i)
+                if (!close_at_tolerance(a[i], b[i], t))
+                    return false;
+            return true;
+        }
+
+        template <class A, class B, class T>
+        bool test_close_q_impl(A(&a)[4], B(&b)[4], T t) {
+            bool same = true;
+            for (int i = 0; i < 4; ++i)
+                if (!close_at_tolerance(a[i], b[i], t))
+                    same = false;
+
+            if (same) return true;
+
+            for (int i = 0; i < 4; ++i)
+                if (!close_at_tolerance(a[i], -b[i], t))
+                    return false;
+
+            return true;
+        }
+
+    } // namespace detail
+} // namespace test_qvm
 
 #endif

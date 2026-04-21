@@ -56,11 +56,10 @@ mat_index_test()
     test_write_element_idx<M>::test();
     }
 
-int
-main()
+TEST_CASE()
     {       
     using namespace boost::qvm;
     mat_index_test<test_qvm::matrix<M1,4,4> >();
     mat_index_test<test_qvm::matrix<M1,5,5> >();
-    return boost::report_errors();
+    
     }
