@@ -33,12 +33,12 @@ test_qvm
             }
         };
 
-    template <int Rows,int Cols,class Tag1,class T1,class Tag2,class T2>
-    void
-    dump_ab( matrix<Tag1,Rows,Cols,T1> const & a, matrix<Tag2,Rows,Cols,T2> const & b )
-        {
-        detail::dump_ab(a.a,b.a);
-        }
+    //template <int Rows,int Cols,class Tag1,class T1,class Tag2,class T2>
+    //void
+    //dump_ab( matrix<Tag1,Rows,Cols,T1> const & a, matrix<Tag2,Rows,Cols,T2> const & b )
+    //    {
+    //    detail::dump_ab(a.a,b.a);
+    //    }
     }
 
 namespace boost { namespace qvm {

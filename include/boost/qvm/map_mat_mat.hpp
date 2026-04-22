@@ -17,37 +17,34 @@ namespace
 qvm_detail
     {
     template <int Row,class OriginalMatrix>
-    class
-    del_row_
-        {
-        del_row_( del_row_ const & );
-        del_row_ & operator=( del_row_ const & );
-        ~del_row_();
+	class
+	del_row_
+	{
+		del_row_( del_row_ const & );
+		del_row_ & operator=( del_row_ const & );
+		~del_row_();
 
-        public:
+	public:
 
-        template <class T>
-        BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
-        del_row_ &
-        operator=( T const & x )
-            {
-            assign(*this,x);
-            return *this;
-            }
+		template <class T>
+		BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
+		del_row_ &
+		operator=( T const & x )
+		{
+			assign(*this,x);
+			return *this;
+		}
 
-        template <class R
-#if __cplusplus >= 201103L
-            , class = typename enable_if<is_mat<R> >::type
-#endif
-        >
-        BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
-        operator R() const
-            {
-            R r;
-            assign(r,*this);
-            return r;
-            }
-        };
+		template <class R>
+		requires is_mat<R>::value
+		BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
+		operator R() const
+		{
+			R r;
+			assign(r,*this);
+			return r;
+		}
+	};
 
     template <int I,class OriginalMatrix,bool WriteElementRef=mat_write_element_ref<OriginalMatrix>::value>
     struct del_row_write_traits;
@@ -174,14 +171,13 @@ deduce_mat2<qvm_detail::del_row_<J,OriginalMatrix>,qvm_detail::del_row_<J,Origin
     };
 
 template <int Row,class A>
-typename enable_if_c<
-    is_mat<A>::value,
-    qvm_detail::del_row_<Row,A> const &>::type
+requires is_mat<A>::value
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
+qvm_detail::del_row_<Row,A> const &
 del_row( A const & a )
-    {
-    return reinterpret_cast<typename qvm_detail::del_row_<Row,A> const &>(a);
-    }
+{
+    return reinterpret_cast<qvm_detail::del_row_<Row,A> const &>(a);
+}
 
 template <int Row,class A>
 typename enable_if_c<
@@ -570,37 +566,34 @@ namespace
 qvm_detail
     {
     template <int Row,class OriginalMatrix>
-    class
-    neg_row_
-        {
-        neg_row_( neg_row_ const & );
-        neg_row_ & operator=( neg_row_ const & );
-        ~neg_row_();
+	class
+	neg_row_
+	{
+		neg_row_( neg_row_ const & );
+		neg_row_ & operator=( neg_row_ const & );
+		~neg_row_();
 
-        public:
+	public:
 
-        template <class T>
-        BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
-        neg_row_ &
-        operator=( T const & x )
-            {
-            assign(*this,x);
-            return *this;
-            }
+		template <class T>
+		BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
+		neg_row_ &
+		operator=( T const & x )
+		{
+			assign(*this,x);
+			return *this;
+		}
 
-        template <class R
-#if __cplusplus >= 201103L
-            , class = typename enable_if<is_mat<R> >::type
-#endif
-        >
-        BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
-        operator R() const
-            {
-            R r;
-            assign(r,*this);
-            return r;
-            }
-        };
+		template <class R>
+		requires is_mat<R>::value
+		BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
+		operator R() const
+		{
+			R r;
+			assign(r,*this);
+			return r;
+		}
+	};
     }
 
 template <int I,class OriginalMatrix>
@@ -978,37 +971,34 @@ namespace
 qvm_detail
     {
     template <int Row1,int Row2,class OriginalMatrix>
-    class
-    swap_cols_
-        {
-        swap_cols_( swap_cols_ const & );
-        swap_cols_ & operator=( swap_cols_ const & );
-        ~swap_cols_();
+	class
+	swap_cols_
+	{
+		swap_cols_( swap_cols_ const & );
+		swap_cols_ & operator=( swap_cols_ const & );
+		~swap_cols_();
 
-        public:
+	public:
 
-        template <class T>
-        BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
-        swap_cols_ &
-        operator=( T const & x )
-            {
-            assign(*this,x);
-            return *this;
-            }
+		template <class T>
+		BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
+		swap_cols_ &
+		operator=( T const & x )
+		{
+			assign(*this,x);
+			return *this;
+		}
 
-        template <class R
-#if __cplusplus >= 201103L
-            , class = typename enable_if<is_mat<R> >::type
-#endif
-        >
-        BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
-        operator R() const
-            {
-            R r;
-            assign(r,*this);
-            return r;
-            }
-        };
+		template <class R>
+		requires is_mat<R>::value
+		BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
+		operator R() const
+		{
+			R r;
+			assign(r,*this);
+			return r;
+		}
+	};
 
     template <int C1,int C2,class OriginalMatrix,bool WriteElementRef=mat_write_element_ref<OriginalMatrix>::value>
     struct swap_cols_write_traits;

@@ -94,14 +94,13 @@ to_string( A const & a )
 ////////////////////////////////////////////////
 
 template <class A,class B,class Cmp>
+    requires (is_mat<A>::value&& is_mat<B>::value&&
+mat_traits<A>::rows == mat_traits<B>::rows &&
+mat_traits<A>::cols == mat_traits<B>::cols)
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename enable_if_c<
-    is_mat<A>::value && is_mat<B>::value &&
-    mat_traits<A>::rows==mat_traits<B>::rows &&
-    mat_traits<A>::cols==mat_traits<B>::cols,
-    bool>::type
+bool
 cmp( A const & a, B const & b, Cmp f )
-    {
+{
     for( int i=0; i!=mat_traits<A>::rows; ++i )
         for( int j=0; j!=mat_traits<A>::cols; ++j )
             if( !f(
@@ -109,7 +108,7 @@ cmp( A const & a, B const & b, Cmp f )
                 mat_traits<B>::read_element_idx(i, j, b)) )
                 return false;
     return true;
-    }
+}
 
 ////////////////////////////////////////////////
 
@@ -639,17 +638,16 @@ qvm_detail
     }
 
 template <class A,class B>
+    requires (is_mat<A>::value&&
+is_mat<B>::value&&
+mat_traits<A>::rows == mat_traits<A>::cols &&
+mat_traits<A>::rows == mat_traits<B>::rows &&
+mat_traits<A>::cols == mat_traits<B>::cols &&
+!qvm_detail::mul_eq_mm_defined<mat_traits<A>::rows>::value)
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename enable_if_c<
-    is_mat<A>::value &&
-    is_mat<B>::value &&
-    mat_traits<A>::rows==mat_traits<A>::cols &&
-    mat_traits<A>::rows==mat_traits<B>::rows &&
-    mat_traits<A>::cols==mat_traits<B>::cols &&
-    !qvm_detail::mul_eq_mm_defined<mat_traits<A>::rows>::value,
-    A &>::type
+A &
 operator*=( A & r, B const & b )
-    {
+{
     typedef typename mat_traits<A>::scalar_type Ta;
     Ta a[mat_traits<A>::rows][mat_traits<A>::cols];
     for( int i=0; i<mat_traits<A>::rows; ++i )
@@ -657,14 +655,14 @@ operator*=( A & r, B const & b )
             a[i][j]=mat_traits<A>::read_element_idx(i,j,r);
     for( int i=0; i<mat_traits<A>::rows; ++i )
         for( int j=0; j<mat_traits<B>::cols; ++j )
-            {
+        {
             Ta x(scalar_traits<Ta>::value(0));
             for( int k=0; k<mat_traits<A>::cols; ++k )
                 x += a[i][k]*mat_traits<B>::read_element_idx(k,j,b);
             write_mat_element_idx(i,j,r,x);
-            }
+        }
     return r;
-    }
+}
 
 ////////////////////////////////////////////////
 

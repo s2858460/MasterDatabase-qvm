@@ -650,12 +650,11 @@ normalized( A const & a )
     }
 
 template <class A>
+requires is_quat<A>::value
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename enable_if_c<
-    is_quat<A>::value,
-    void>::type
+void
 normalize( A & a )
-    {
+{
     typedef typename quat_traits<A>::scalar_type T;
     T const a0=quat_traits<A>::template read_element<0>(a);
     T const a1=quat_traits<A>::template read_element<1>(a);
@@ -669,7 +668,7 @@ normalize( A & a )
     write_quat_element<1>(a,quat_traits<A>::template read_element<1>(a)*rm);
     write_quat_element<2>(a,quat_traits<A>::template read_element<2>(a)*rm);
     write_quat_element<3>(a,quat_traits<A>::template read_element<3>(a)*rm);
-    }
+}
 
 template <class A,class B>
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS

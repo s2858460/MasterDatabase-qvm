@@ -17,12 +17,11 @@
 namespace boost { namespace qvm {
 
 template <class A,class B>
+requires (vec_traits<A>::dim==4 && vec_traits<B>::dim==4)
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename lazy_enable_if_c<
-    vec_traits<A>::dim==4 && vec_traits<B>::dim==4,
-    deduce_vec2<A,B,4> >::type
+typename deduce_vec2<A,B,4>::type
 operator+( A const & a, B const & b )
-    {
+{
     typedef typename deduce_vec2<A,B,4>::type R;
     BOOST_QVM_STATIC_ASSERT(vec_traits<R>::dim==4);
     R r;
@@ -31,7 +30,7 @@ operator+( A const & a, B const & b )
     write_vec_element<2>(r,vec_traits<A>::template read_element<2>(a)+vec_traits<B>::template read_element<2>(b));
     write_vec_element<3>(r,vec_traits<A>::template read_element<3>(a)+vec_traits<B>::template read_element<3>(b));
     return r;
-    }
+}
 
 namespace
 sfinae
@@ -54,12 +53,11 @@ qvm_detail
     }
 
 template <class A,class B>
+requires (vec_traits<A>::dim==4 && vec_traits<B>::dim==4)
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename lazy_enable_if_c<
-    vec_traits<A>::dim==4 && vec_traits<B>::dim==4,
-    deduce_vec2<A,B,4> >::type
+typename deduce_vec2<A,B,4>::type
 operator-( A const & a, B const & b )
-    {
+{
     typedef typename deduce_vec2<A,B,4>::type R;
     BOOST_QVM_STATIC_ASSERT(vec_traits<R>::dim==4);
     R r;
@@ -68,7 +66,7 @@ operator-( A const & a, B const & b )
     write_vec_element<2>(r,vec_traits<A>::template read_element<2>(a)-vec_traits<B>::template read_element<2>(b));
     write_vec_element<3>(r,vec_traits<A>::template read_element<3>(a)-vec_traits<B>::template read_element<3>(b));
     return r;
-    }
+}
 
 namespace
 sfinae
@@ -91,18 +89,17 @@ qvm_detail
     }
 
 template <class A,class B>
+requires (vec_traits<A>::dim==4 && vec_traits<B>::dim==4)
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename enable_if_c<
-    vec_traits<A>::dim==4 && vec_traits<B>::dim==4,
-    A &>::type
+A &
 operator+=( A & a, B const & b )
-    {
+{
     write_vec_element<0>(a,vec_traits<A>::template read_element<0>(a)+vec_traits<B>::template read_element<0>(b));
     write_vec_element<1>(a,vec_traits<A>::template read_element<1>(a)+vec_traits<B>::template read_element<1>(b));
     write_vec_element<2>(a,vec_traits<A>::template read_element<2>(a)+vec_traits<B>::template read_element<2>(b));
     write_vec_element<3>(a,vec_traits<A>::template read_element<3>(a)+vec_traits<B>::template read_element<3>(b));
     return a;
-    }
+}
 
 namespace
 sfinae
@@ -125,18 +122,17 @@ qvm_detail
     }
 
 template <class A,class B>
+requires (vec_traits<A>::dim==4 && vec_traits<B>::dim==4)
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename enable_if_c<
-    vec_traits<A>::dim==4 && vec_traits<B>::dim==4,
-    A &>::type
+A &
 operator-=( A & a, B const & b )
-    {
+{
     write_vec_element<0>(a,vec_traits<A>::template read_element<0>(a)-vec_traits<B>::template read_element<0>(b));
     write_vec_element<1>(a,vec_traits<A>::template read_element<1>(a)-vec_traits<B>::template read_element<1>(b));
     write_vec_element<2>(a,vec_traits<A>::template read_element<2>(a)-vec_traits<B>::template read_element<2>(b));
     write_vec_element<3>(a,vec_traits<A>::template read_element<3>(a)-vec_traits<B>::template read_element<3>(b));
     return a;
-    }
+}
 
 namespace
 sfinae
@@ -159,12 +155,11 @@ qvm_detail
     }
 
 template <class A,class B>
+requires (vec_traits<A>::dim==4 && is_scalar<B>::value)
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename lazy_enable_if_c<
-    vec_traits<A>::dim==4 && is_scalar<B>::value,
-    deduce_vec2<A,B,vec_traits<A>::dim> >::type
+typename deduce_vec2<A,B,vec_traits<A>::dim>::type
 operator*( A const & a, B b )
-    {
+{
     typedef typename deduce_vec2<A,B,vec_traits<A>::dim>::type R;
     R r;
     write_vec_element<0>(r,vec_traits<A>::template read_element<0>(a)*b);
@@ -172,7 +167,7 @@ operator*( A const & a, B b )
     write_vec_element<2>(r,vec_traits<A>::template read_element<2>(a)*b);
     write_vec_element<3>(r,vec_traits<A>::template read_element<3>(a)*b);
     return r;
-    }
+}
 
 namespace
 sfinae
@@ -195,12 +190,11 @@ qvm_detail
     }
 
 template <class A,class B>
+requires (is_scalar<A>::value && vec_traits<B>::dim==4)
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename lazy_enable_if_c<
-    is_scalar<A>::value && vec_traits<B>::dim==4,
-    deduce_vec2<A,B,vec_traits<B>::dim> >::type
+typename deduce_vec2<A,B,vec_traits<B>::dim>::type
 operator*( A a, B const & b )
-    {
+{
     typedef typename deduce_vec2<A,B,vec_traits<B>::dim>::type R;
     R r;
     write_vec_element<0>(r,a*vec_traits<B>::template read_element<0>(b));
@@ -208,7 +202,7 @@ operator*( A a, B const & b )
     write_vec_element<2>(r,a*vec_traits<B>::template read_element<2>(b));
     write_vec_element<3>(r,a*vec_traits<B>::template read_element<3>(b));
     return r;
-    }
+}
 
 namespace
 sfinae
@@ -231,18 +225,17 @@ qvm_detail
     }
 
 template <class A,class  B>
+requires (vec_traits<A>::dim==4 && is_scalar<B>::value)
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename enable_if_c<
-    vec_traits<A>::dim==4 && is_scalar<B>::value,
-    A &>::type
+A &
 operator*=( A & a, B b )
-    {
+{
     write_vec_element<0>(a, vec_traits<A>::template read_element<0>(a)*b);
     write_vec_element<1>(a, vec_traits<A>::template read_element<1>(a)*b);
     write_vec_element<2>(a, vec_traits<A>::template read_element<2>(a)*b);
     write_vec_element<3>(a, vec_traits<A>::template read_element<3>(a)*b);
     return a;
-    }
+}
 
 namespace
 sfinae
@@ -265,12 +258,11 @@ qvm_detail
     }
 
 template <class A,class B>
+requires (vec_traits<A>::dim==4 && is_scalar<B>::value)
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename lazy_enable_if_c<
-    vec_traits<A>::dim==4 && is_scalar<B>::value,
-    deduce_vec2<A,B,vec_traits<A>::dim> >::type
+typename deduce_vec2<A,B,vec_traits<A>::dim>::type
 operator/( A const & a, B b )
-    {
+{
     typedef typename deduce_vec2<A,B,vec_traits<A>::dim>::type R;
     R r;
     write_vec_element<0>(r,vec_traits<A>::template read_element<0>(a)/b);
@@ -278,7 +270,7 @@ operator/( A const & a, B b )
     write_vec_element<2>(r,vec_traits<A>::template read_element<2>(a)/b);
     write_vec_element<3>(r,vec_traits<A>::template read_element<3>(a)/b);
     return r;
-    }
+}
 
 namespace
 sfinae
@@ -299,20 +291,18 @@ qvm_detail
         static bool const value=true;
         };
     }
-
 template <class A,class  B>
+requires (vec_traits<A>::dim==4 && is_scalar<B>::value)
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename enable_if_c<
-    vec_traits<A>::dim==4 && is_scalar<B>::value,
-    A &>::type
+A &
 operator/=( A & a, B b )
-    {
+{
     write_vec_element<0>(a, vec_traits<A>::template read_element<0>(a)/b);
     write_vec_element<1>(a, vec_traits<A>::template read_element<1>(a)/b);
     write_vec_element<2>(a, vec_traits<A>::template read_element<2>(a)/b);
     write_vec_element<3>(a, vec_traits<A>::template read_element<3>(a)/b);
     return a;
-    }
+}
 
 namespace
 sfinae

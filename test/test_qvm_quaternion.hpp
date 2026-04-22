@@ -32,12 +32,12 @@ test_qvm
             }
         };
 
-    template <class Tag1,class T1,class Tag2,class T2>
-    void
-    dump_ab( quaternion<Tag1,T1> const & a, quaternion<Tag2,T2> const & b )
-        {
-        detail::dump_ab(a.a,b.a);
-        }
+    //template <class Tag1,class T1,class Tag2,class T2>
+    //void
+    //dump_ab( quaternion<Tag1,T1> const & a, quaternion<Tag2,T2> const & b )
+    //    {
+    //    detail::dump_ab(a.a,b.a);
+    //    }
     }
 
 namespace boost { namespace qvm {
