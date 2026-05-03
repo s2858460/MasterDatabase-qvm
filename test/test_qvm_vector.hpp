@@ -31,13 +31,6 @@ test_qvm
                 a[i]=b[i]=start;
             }
         };
-
-    template <int Dim,class Tag1,class T1,class Tag2,class T2>
-    void
-    dump_ab( vector<Tag1,Dim,T1> const & a, vector<Tag2,Dim,T2> const & b )
-        {
-        detail::dump_ab(a.a,b.a);
-        }
     }
 
 namespace boost { namespace qvm {
