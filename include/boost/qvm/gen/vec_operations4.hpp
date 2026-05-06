@@ -16,10 +16,9 @@
 
 namespace boost { namespace qvm {
 
-template <class A,class B>
-requires (vec_traits<A>::dim==4 && vec_traits<B>::dim==4)
+template <class A,class B, typename std::enable_if<(vec_traits<A>::dim==4 && vec_traits<B>::dim==4),int>::type = 0>
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename deduce_vec2<A,B,4>::type
+auto
 operator+( A const & a, B const & b )
 {
     typedef typename deduce_vec2<A,B,4>::type R;
@@ -52,10 +51,9 @@ qvm_detail
         };
     }
 
-template <class A,class B>
-requires (vec_traits<A>::dim==4 && vec_traits<B>::dim==4)
+template <class A,class B, typename std::enable_if<(vec_traits<A>::dim==4 && vec_traits<B>::dim==4),int>::type = 0>
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename deduce_vec2<A,B,4>::type
+auto
 operator-( A const & a, B const & b )
 {
     typedef typename deduce_vec2<A,B,4>::type R;
@@ -67,6 +65,7 @@ operator-( A const & a, B const & b )
     write_vec_element<3>(r,vec_traits<A>::template read_element<3>(a)-vec_traits<B>::template read_element<3>(b));
     return r;
 }
+
 
 namespace
 sfinae
@@ -88,8 +87,7 @@ qvm_detail
         };
     }
 
-template <class A,class B>
-requires (vec_traits<A>::dim==4 && vec_traits<B>::dim==4)
+template <class A,class B, typename std::enable_if<(vec_traits<A>::dim==4 && vec_traits<B>::dim==4),int>::type = 0>
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
 A &
 operator+=( A & a, B const & b )
@@ -100,6 +98,7 @@ operator+=( A & a, B const & b )
     write_vec_element<3>(a,vec_traits<A>::template read_element<3>(a)+vec_traits<B>::template read_element<3>(b));
     return a;
 }
+
 
 namespace
 sfinae
@@ -121,8 +120,7 @@ qvm_detail
         };
     }
 
-template <class A,class B>
-requires (vec_traits<A>::dim==4 && vec_traits<B>::dim==4)
+template <class A,class B, typename std::enable_if<(vec_traits<A>::dim==4 && vec_traits<B>::dim==4),int>::type = 0>
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
 A &
 operator-=( A & a, B const & b )
@@ -133,6 +131,7 @@ operator-=( A & a, B const & b )
     write_vec_element<3>(a,vec_traits<A>::template read_element<3>(a)-vec_traits<B>::template read_element<3>(b));
     return a;
 }
+
 
 namespace
 sfinae
@@ -154,8 +153,7 @@ qvm_detail
         };
     }
 
-template <class A,class B>
-requires (vec_traits<A>::dim==4 && is_scalar<B>::value)
+template <class A,class B, typename std::enable_if<(vec_traits<A>::dim==4 && is_scalar<B>::value),int>::type = 0>
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
 typename deduce_vec2<A,B,vec_traits<A>::dim>::type
 operator*( A const & a, B b )
@@ -168,6 +166,7 @@ operator*( A const & a, B b )
     write_vec_element<3>(r,vec_traits<A>::template read_element<3>(a)*b);
     return r;
 }
+
 
 namespace
 sfinae
@@ -189,8 +188,7 @@ qvm_detail
         };
     }
 
-template <class A,class B>
-requires (is_scalar<A>::value && vec_traits<B>::dim==4)
+template <class A,class B, typename std::enable_if<(is_scalar<A>::value && vec_traits<B>::dim==4),int>::type = 0>
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
 typename deduce_vec2<A,B,vec_traits<B>::dim>::type
 operator*( A a, B const & b )
@@ -203,6 +201,7 @@ operator*( A a, B const & b )
     write_vec_element<3>(r,a*vec_traits<B>::template read_element<3>(b));
     return r;
 }
+
 
 namespace
 sfinae
@@ -224,8 +223,7 @@ qvm_detail
         };
     }
 
-template <class A,class  B>
-requires (vec_traits<A>::dim==4 && is_scalar<B>::value)
+template <class A,class  B, typename std::enable_if<(vec_traits<A>::dim==4 && is_scalar<B>::value),int>::type = 0>
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
 A &
 operator*=( A & a, B b )
@@ -236,6 +234,7 @@ operator*=( A & a, B b )
     write_vec_element<3>(a, vec_traits<A>::template read_element<3>(a)*b);
     return a;
 }
+
 
 namespace
 sfinae
@@ -257,8 +256,7 @@ qvm_detail
         };
     }
 
-template <class A,class B>
-requires (vec_traits<A>::dim==4 && is_scalar<B>::value)
+template <class A,class B, typename std::enable_if<(vec_traits<A>::dim==4 && is_scalar<B>::value),int>::type = 0>
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
 typename deduce_vec2<A,B,vec_traits<A>::dim>::type
 operator/( A const & a, B b )
@@ -271,6 +269,7 @@ operator/( A const & a, B b )
     write_vec_element<3>(r,vec_traits<A>::template read_element<3>(a)/b);
     return r;
 }
+
 
 namespace
 sfinae
@@ -291,8 +290,7 @@ qvm_detail
         static bool const value=true;
         };
     }
-template <class A,class  B>
-requires (vec_traits<A>::dim==4 && is_scalar<B>::value)
+template <class A,class  B, typename std::enable_if<(vec_traits<A>::dim==4 && is_scalar<B>::value),int>::type = 0>
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
 A &
 operator/=( A & a, B b )
@@ -303,6 +301,7 @@ operator/=( A & a, B b )
     write_vec_element<3>(a, vec_traits<A>::template read_element<3>(a)/b);
     return a;
 }
+
 
 namespace
 sfinae

@@ -649,8 +649,7 @@ normalized( A const & a )
     return r;
     }
 
-template <class A>
-requires is_quat<A>::value
+template <class A, typename std::enable_if<is_quat<A>::value,int>::type = 0>
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
 void
 normalize( A & a )
@@ -669,6 +668,7 @@ normalize( A & a )
     write_quat_element<2>(a,quat_traits<A>::template read_element<2>(a)*rm);
     write_quat_element<3>(a,quat_traits<A>::template read_element<3>(a)*rm);
 }
+
 
 template <class A,class B>
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS

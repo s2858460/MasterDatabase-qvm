@@ -12,7 +12,9 @@
 
 namespace boost { namespace qvm {
 
-template <class M> requires is_mat<M>::value BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL typename mat_traits<M>::scalar_type A00( M const & a ) { BOOST_QVM_STATIC_ASSERT(0<mat_traits<M>::rows && 0<mat_traits<M>::cols); return mat_traits<M>::template read_element<0,0>(a); }
+template <class M, typename std::enable_if<is_mat<M>::value,int>::type = 0>
+BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
+typename mat_traits<M>::scalar_type A00( M const & a ) { BOOST_QVM_STATIC_ASSERT(0<mat_traits<M>::rows && 0<mat_traits<M>::cols); return mat_traits<M>::template read_element<0,0>(a); }
 template <class M> requires is_mat<M>::value BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL typename mat_traits<M>::scalar_type A01( M const & a ) { BOOST_QVM_STATIC_ASSERT(0<mat_traits<M>::rows && 1<mat_traits<M>::cols); return mat_traits<M>::template read_element<0,1>(a); }
 template <class M> requires is_mat<M>::value BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL typename mat_traits<M>::scalar_type A02( M const & a ) { BOOST_QVM_STATIC_ASSERT(0<mat_traits<M>::rows && 2<mat_traits<M>::cols); return mat_traits<M>::template read_element<0,2>(a); }
 template <class M> requires is_mat<M>::value BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL typename mat_traits<M>::scalar_type A03( M const & a ) { BOOST_QVM_STATIC_ASSERT(0<mat_traits<M>::rows && 3<mat_traits<M>::cols); return mat_traits<M>::template read_element<0,3>(a); }
