@@ -35,11 +35,8 @@ qvm_detail
             return *this;
             }
 
-        template <class R
-#if __cplusplus >= 201103L
-            , class = typename enable_if<is_mat<R> >::type
-#endif
-        >
+        template <class R>
+        requires is_mat<R>::value
         BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
         operator R() const
             {
@@ -48,6 +45,7 @@ qvm_detail
             return r;
             }
         };
+
 
     template <int I,class OriginalMatrix,bool WriteElementRef=mat_write_element_ref<OriginalMatrix>::value>
     struct del_row_write_traits;
@@ -174,14 +172,14 @@ deduce_mat2<qvm_detail::del_row_<J,OriginalMatrix>,qvm_detail::del_row_<J,Origin
     };
 
 template <int Row,class A>
-typename enable_if_c<
-    is_mat<A>::value,
-    qvm_detail::del_row_<Row,A> const &>::type
+requires is_mat<A>::value
+qvm_detail::del_row_<Row,A> const &
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
 del_row( A const & a )
     {
     return reinterpret_cast<typename qvm_detail::del_row_<Row,A> const &>(a);
     }
+
 
 template <int Row,class A>
 typename enable_if_c<
@@ -588,11 +586,8 @@ qvm_detail
             return *this;
             }
 
-        template <class R
-#if __cplusplus >= 201103L
-            , class = typename enable_if<is_mat<R> >::type
-#endif
-        >
+        template <class R>
+        requires is_mat<R>::value
         BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
         operator R() const
             {
@@ -601,6 +596,7 @@ qvm_detail
             return r;
             }
         };
+
     }
 
 template <int I,class OriginalMatrix>
@@ -996,11 +992,8 @@ qvm_detail
             return *this;
             }
 
-        template <class R
-#if __cplusplus >= 201103L
-            , class = typename enable_if<is_mat<R> >::type
-#endif
-        >
+        template <class R>
+        requires is_mat<R>::value
         BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_TRIVIAL
         operator R() const
             {
@@ -1009,6 +1002,7 @@ qvm_detail
             return r;
             }
         };
+
 
     template <int C1,int C2,class OriginalMatrix,bool WriteElementRef=mat_write_element_ref<OriginalMatrix>::value>
     struct swap_cols_write_traits;
