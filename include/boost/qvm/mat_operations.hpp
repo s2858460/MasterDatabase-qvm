@@ -95,12 +95,11 @@ to_string( A const & a )
 
 template <class A,class B,class Cmp>
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename enable_if_c<
-    is_mat<A>::value && is_mat<B>::value &&
-    mat_traits<A>::rows==mat_traits<B>::rows &&
-    mat_traits<A>::cols==mat_traits<B>::cols,
-    bool>::type
+bool
 cmp( A const & a, B const & b, Cmp f )
+    requires is_mat<A>::value && is_mat<B>::value &&
+             mat_traits<A>::rows==mat_traits<B>::rows &&
+             mat_traits<A>::cols==mat_traits<B>::cols
     {
     for( int i=0; i!=mat_traits<A>::rows; ++i )
         for( int j=0; j!=mat_traits<A>::cols; ++j )
@@ -110,6 +109,7 @@ cmp( A const & a, B const & b, Cmp f )
                 return false;
     return true;
     }
+
 
 ////////////////////////////////////////////////
 
@@ -640,15 +640,14 @@ qvm_detail
 
 template <class A,class B>
 BOOST_QVM_CONSTEXPR BOOST_QVM_INLINE_OPERATIONS
-typename enable_if_c<
-    is_mat<A>::value &&
-    is_mat<B>::value &&
-    mat_traits<A>::rows==mat_traits<A>::cols &&
-    mat_traits<A>::rows==mat_traits<B>::rows &&
-    mat_traits<A>::cols==mat_traits<B>::cols &&
-    !qvm_detail::mul_eq_mm_defined<mat_traits<A>::rows>::value,
-    A &>::type
+A &
 operator*=( A & r, B const & b )
+    requires is_mat<A>::value &&
+             is_mat<B>::value &&
+             mat_traits<A>::rows==mat_traits<A>::cols &&
+             mat_traits<A>::rows==mat_traits<B>::rows &&
+             mat_traits<A>::cols==mat_traits<B>::cols &&
+             !qvm_detail::mul_eq_mm_defined<mat_traits<A>::rows>::value
     {
     typedef typename mat_traits<A>::scalar_type Ta;
     Ta a[mat_traits<A>::rows][mat_traits<A>::cols];
@@ -665,6 +664,7 @@ operator*=( A & r, B const & b )
             }
     return r;
     }
+
 
 ////////////////////////////////////////////////
 
